@@ -1,0 +1,39 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: test-ci-cd-sigemad-app-of-apps
+  namespace: openshift-gitops
+spec:
+  destination:
+    namespace: test-ci-cd-sigemad
+    server: https://kubernetes.default.svc
+  source:
+    repoURL: 'https://github.com/EduardSolOS/app-of-apps.git'
+    targetRevision: feature/test-ci-cd-sigemad  # Rama específica para pruebas
+    path: .  # Ruta en el repositorio donde está este archivo
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+  applications:
+    - name: backend
+      namespace: test-ci-cd-sigemad
+      repoURL: 'https://github.com/EduardSolOS/app-of-apps.git'
+      path: backend
+      targetRevision: feature/test-ci-cd-sigemad
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+
+    - name: frontend
+      namespace: test-ci-cd-sigemad
+      repoURL: 'https://github.com/EduardSolOS/app-of-apps.git'
+      path: frontend
+      targetRevision: feature/test-ci-cd-sigemad
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+

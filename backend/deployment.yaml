@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  namespace: test-ci-cd-sigemad
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend
+        image: image-registry.openshift-image-registry.svc:5000/test-ci-cd-sigemad/backend:latest  # Cambia al tag correcto según tu configuración de CI/CD
+        ports:
+        - containerPort: 80
+
